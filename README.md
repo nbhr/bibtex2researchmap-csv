@@ -14,10 +14,10 @@ bibtexエントリー種別の使い分けが違う，WORDやWEB向けにHTMLで
 
 ## 依存ライブラリ
 
-gemsで以下をインストール．要するに[jekyll](https://jekyllrb.com/)が動く環境ならOK．
-* bibtex-ruby
-* citeproc
-* csl-styles
+gemで以下をインストール．要するに[jekyll](https://jekyllrb.com/)が動く環境ならOK．
+* [bibtex-ruby](https://github.com/inukshuk/bibtex-ruby)
+* [citeproc-ruby](https://github.com/inukshuk/citeproc-ruby)
+* [csl-ruby](https://github.com/inukshuk/csl-ruby)
 
 ## 使い方
 
