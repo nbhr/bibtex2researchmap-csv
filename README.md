@@ -81,6 +81,17 @@ $ ruby bib2csv.rb sample.bib
 * `invited` → 値が0なら「招待：無」，1なら「招待：有」とする（デフォルトは無し）
 * `language` → 値がjapaneseまたはjaなら強制的に日本語論文，englishまたはenなら英語論文とする（デフォルトは著者名の文字コードで自動決定）
 
+## おまけ
+
+`bib2txt.rb`を使うと，bibtexからplain textで文献リストを生成できる．要するにBibTexそのもの…ではあるが，スクリプト的に何か追加処理をする際のテンプレートとして．`.bst`ファイルよりも`.csl`ファイルのほうが編集しやすい，という人向け．
+
+第１引数はbibファイル，第２引数はCSLファイルの名前．csl-stylesに同梱されているもの（`ieee`や`acm-siggraph`など）でも，カレントディレクトリに自分で用意したファイルでも可．独自の様式にしたい場合は，適当な既存CSLをもとに編集すること．
+
+```
+$ ruby bib2txt.rb sample.bib ieee
+```
+
+
 ## ライセンス
 
 BSD 3-Clause License
