@@ -9,6 +9,13 @@ researchmap.jpへの論文情報登録を省力化するためのrubyスクリ�
 
 このスクリプトは汎用性・再利用性を考えては作成されていません．bibtexエントリー種別の使い分けが違う，などの場合はスクリプトを直接書き換えてください．
 
+## 依存ライブラリ
+
+gemsで以下をインストール．要するに[jekyll](https://jekyllrb.com/)が動く環境ならOK．
+* bibtex-ruby
+* citeproc
+* csl-styles
+
 ## 使い方
 
 第1引数に元となるbibファイルを指定して実行．
