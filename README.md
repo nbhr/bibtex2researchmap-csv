@@ -48,9 +48,9 @@ $ ruby bib2csv.rb sample.bib
 |開始ページ         |pages                          |
 |終了ページ         |pages                          |
 |出版年月           |year,month                     |
-|査読の有無         |※１                           |
-|招待の有無         |invited ※２                   |
-|記述言語           |language ※２                  |
+|査読の有無         |reviewed *1, *2                |
+|招待の有無         |invited *2                     |
+|記述言語           |language *1, *2                |
 |掲載種別           |                               |
 |ISSN               |                               |
 |ID:DOI             |                               |
@@ -62,8 +62,8 @@ $ ruby bib2csv.rb sample.bib
 |概要(日本語)       |                               |
 |概要(英語)         |                               |
 
-* ※１：下記分類により自動決定
-* ※２：下記の独自拡張フィールド
+1. 下記分類により自動決定
+2. 下記の独自拡張フィールド
 
 ### BibTexエントリーとresearchmap.jp分類の対応関係
 
@@ -77,7 +77,7 @@ $ ruby bib2csv.rb sample.bib
 
 ### BibTex拡張フィールド
 
-* `reviewed` → 値が0なら「査読：無」，1なら「査読：有」とする（デフォルトは上記のとおりエントリー種別で自動決定）
+* `reviewed` → 値が0なら「査読：無」，1なら「査読：有」とする（デフォルトはエントリー種別で自動決定）
 * `invited` → 値が0なら「招待：無」，1なら「招待：有」とする（デフォルトは無し）
 * `language` → 値がjapaneseまたはjaなら強制的に日本語論文，englishまたはenなら英語論文とする（デフォルトは著者名の文字コードで自動決定）
 
