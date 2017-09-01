@@ -19,8 +19,8 @@ $ ruby bib2csv.rb sample.bib
 下記のファイルが出力されるので，これらをresearchmap.jpでimportする．
 * `paper_e.csv` : 「論文-英語」用
 * `paper_j.csv` : 「論文-日本語」用
-* `misc_e.csv` : 「学会発表等-英語」用
-* `misc_j.csv` : 「学会発表等-日本語」用
+* `misc_e.csv` : 「Misc-英語」用
+* `misc_j.csv` : 「Misc-日本語」用
 
 ## 仕様
 
