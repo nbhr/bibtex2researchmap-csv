@@ -18,10 +18,11 @@ class BibTeX::Entry
 	attr_accessor :x_lang
 	attr_accessor :x_reviewed
 	attr_accessor :x_invited
+	attr_accessor :x_doi
 
 	def to_s()
-		return sprintf('"%s","","%s","","%s","","%s","%s","%s","%s","%s","%s","%s","%s","","","","","","","","","",""',
-			self.x_title, self.x_authors, self.x_locators, self['volume'], self['number'], self.x_ps, self.x_pe, self.date, self.x_reviewed, self['invited'], self.x_lang)
+		return sprintf('"%s","","%s","","%s","","%s","%s","%s","%s","%s","%s","%s","%s","","","%s","","","","","","",""',
+			self.x_title, self.x_authors, self.x_locators, self['volume'], self['number'], self.x_ps, self.x_pe, self.date, self.x_reviewed, self['invited'], self.x_lang, self.x_doi)
 	end
 
     def is_ja(txt)
@@ -79,6 +80,13 @@ class BibTeX::Entry
 			self.date = sprintf("%04d0000", Date.strptime(self.year, "%Y").strftime("%Y"))
 		end
 
+        if !self['doi'].nil?
+            self.x_doi = self['doi']
+        elsif !self['pdf'].nil? && m = self['pdf'].match(/^https?:\/\/(?:dx.)?doi.org\/(.+)/)
+            self.x_doi = m[1]
+        elsif !self['url'].nil? && m = self['url'].match(/^https?:\/\/(?:dx.)?doi.org\/(.+)/)
+            self.x_doi = m[1]
+        end
 	end
 end
 

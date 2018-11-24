@@ -2,22 +2,21 @@
 
 ## 目的
 
-researchmap.jpへの論文情報登録を省力化するためのrubyスクリプトです．
+[researchmap.jp](https://researchmap.jp/)への論文情報登録を省力化するためのrubyスクリプトです．
 具体的にはresearchmap.jpでimport可能なcsvファイルをbibファイルから生成します．
 
-つまりもともとBibTexで文献リストを管理し，各種報告書・申請書の文献一覧を指定された書式に応じて自動生成していたような人が，researchmap.jpにも論文情報を簡単に登録することを目的としています．
+つまりもともとBibTeXで文献リストを管理し，各種報告書・申請書の文献一覧を指定された書式に応じて自動生成していたような人が，researchmap.jpにも論文情報を簡単に登録することを目的としています．
 
 ### お断り
 
 このスクリプトは汎用性を考えて作成されたものではなく，指定された書式に応じて適当に改造しながら使うためのテンプレートです．
-bibtexエントリー種別の使い分けが違う，WORDやWEB向けにHTMLで出力したい等々，その時々の事情に合わせてスクリプトを書き換えてください．
+bibtexエントリー種別の使い分けが違う，WORDやWEB向けにHTMLで出力したい等々，その時々の事情に合わせてスクリプトをどんどん書き換えてください．
 
-なお同梱の`bib2csv.csl`はciteproc-stylesの`ieee.csl`をもとにして，タブ区切り出力となるよう中途半端に改造したものです．オリジナルの作者については同ファイル内を確認してください．
-`CiteProc::Processor`をもっと上手に使えれば不要になると思いますが，やっつけ仕事なので不細工な実装となっています．
+なお同梱の`bib2csv.csl`はciteproc-stylesの`ieee.csl`をもとにして，タブ区切り出力となるように中途半端に改造したものです．オリジナルの作者については同ファイル内を確認してください．`CiteProc::Processor`をもっと上手に使えれば不要になると思いますが，やっつけ仕事なので不細工な実装となっています．
 
 ## 依存ライブラリ
 
-gemで以下をインストール．要するに[jekyll](https://jekyllrb.com/)が動く環境ならOK．
+gemで以下をインストール．要するに[jekyll](https://jekyllrb.com/)と[jekyll-scholar](https://github.com/inukshuk/jekyll-scholar)が動く環境ならOK．
 * [bibtex-ruby](https://github.com/inukshuk/bibtex-ruby)
 * [citeproc-ruby](https://github.com/inukshuk/citeproc-ruby)
 * [csl-ruby](https://github.com/inukshuk/csl-ruby)
@@ -29,7 +28,7 @@ gemで以下をインストール．要するに[jekyll](https://jekyllrb.com/)�
 $ ruby bib2csv.rb sample.bib
 ```
 
-下記のファイルが出力されるので，これらをresearchmap.jpでimportする．
+下記のファイルが出力されるので，これらをresearchmap.jpでimportする．文字コードはUTF-8なので，必要ならnkfか何かで変換する．
 * `paper_e.csv` : 「論文-英語」用
 * `paper_j.csv` : 「論文-日本語」用
 * `misc_e.csv` : 「Misc-英語」用
@@ -37,7 +36,7 @@ $ ruby bib2csv.rb sample.bib
 
 ### 注意
 
-* 用意するbibファイルは，`@string`を使って論文誌名などに表記のゆれが無いようにする．
+* 用意するbibファイルは，`@string`を使って論文誌名などに表記のゆれが無いようにするほうがよい．
   * 同梱の`sample.bib`参照
 * bibtex-rubyのlatexフィルタを通すので，標準的なlatex命令はbibtexエントリに入っていても問題ない…はず．しかしどの程度まで対応できるかは不明．
   * 例えば同梱の`sample.bib`での「`In Proc.~of`」において`~`（改行不可の空白）はスペース１文字に変換される．
@@ -45,7 +44,7 @@ $ ruby bib2csv.rb sample.bib
   * なにか動作が切り替わるような実行時引数などは何も用意されていない．
   * 出力ファイル名もハードコーディングされている．
   * 必要があれば独自BibTexフィールドを追加し，それに対応するコードを書く．
-* 出力の文字コードはUTF-8．SJISが必要な場合はソースコードを書き換えるか，出力ファイルを`nkf`か何かで別途変換する．ただしSJISで表せない文字（アクセント記号など）が著者名などに含まれる場合には文字化けに注意．
+* 出力の文字コードをSJISにしたい場合はソースコードを書き換えてるか，nkfなどを使う．ただしSJISで表せない文字（アクセント記号など）が著者名などに含まれる場合には文字化けに注意．
 
 ## 仕様
 
@@ -53,32 +52,32 @@ $ ruby bib2csv.rb sample.bib
 
 ### BibTexフィールドとCSVフィールドの対応関係
 
-| CSV               | BibTex                        |
-|-------------------|-------------------------------|
-|タイトル(日本語)   |title                          |
-|タイトル(英語)     |title                          |
-|著者(日本語)       |author                         |
-|著者(英語)         |author                         |
-|誌名(日本語)       |journal, booktitle, institution|
-|誌名(英語)         |journal, booktitle, institution|
-|巻                 |volume                         |
-|号                 |number                         |
-|開始ページ         |pages                          |
-|終了ページ         |pages                          |
-|出版年月           |year,month                     |
-|査読の有無         |reviewed *1, *2                |
-|招待の有無         |invited *2                     |
-|記述言語           |language *1, *2                |
-|掲載種別           |                               |
-|ISSN               |                               |
-|ID:DOI             |                               |
-|ID:JGlobalID       |                               |
-|ID:NAID(CiNiiのID) |                               |
-|ID:PMID            |                               |
-|Permalink          |                               |
-|URL                |                               |
-|概要(日本語)       |                               |
-|概要(英語)         |                               |
+| CSV               | BibTex                                 |
+|-------------------|----------------------------------------|
+|タイトル(日本語)   |title                                   |
+|タイトル(英語)     |title                                   |
+|著者(日本語)       |author                                  |
+|著者(英語)         |author                                  |
+|誌名(日本語)       |journal, booktitle, institution         |
+|誌名(英語)         |journal, booktitle, institution         |
+|巻                 |volume                                  |
+|号                 |number                                  |
+|開始ページ         |pages                                   |
+|終了ページ         |pages                                   |
+|出版年月           |year,month                              |
+|査読の有無         |reviewed *1, *2                         |
+|招待の有無         |invited *2                              |
+|記述言語           |language *1, *2                         |
+|掲載種別           |                                        |
+|ISSN               |                                        |
+|ID:DOI             |doi or https://doi.org/... in url or pdf|
+|ID:JGlobalID       |                                        |
+|ID:NAID(CiNiiのID) |                                        |
+|ID:PMID            |                                        |
+|Permalink          |                                        |
+|URL                |                                        |
+|概要(日本語)       |                                        |
+|概要(英語)         |                                        |
 
 1. 下記分類により自動決定
 2. 下記の独自拡張フィールド
