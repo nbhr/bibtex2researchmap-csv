@@ -37,7 +37,7 @@ class BibTeX::Entry
 		when "english", "en" then
 			self.x_lang = "en"
 		else
-			self.x_lang = x[0] =~ /^[ -~]*$/ ? "en" : "ja"
+			self.x_lang = x[0] =~ /^[ -~]*$/ && self.x_locators =~ /^[ -~]*$/ ? "en" : "ja"
 		end
 
 		case self['reviewed']
@@ -100,12 +100,12 @@ begin
 	end
 
 	paper_e, paper_j = bib['@article'].partition{ |b| b.x_lang == "en" }
-	File.open('paper_e.csv', 'w:Shift_JIS:UTF-8') { |f| f.puts HE; f.puts paper_e }
-	File.open('paper_j.csv', 'w:Shift_JIS:UTF-8') { |f| f.puts HJ; f.puts paper_j }
+	File.open('paper_e.csv', 'w:UTF-8') { |f| f.puts HE; f.puts paper_e }
+	File.open('paper_j.csv', 'w:UTF-8') { |f| f.puts HJ; f.puts paper_j }
 
 	misc_e, misc_j = bib['@inproceedings,@techreport'].partition{ |b| b.x_lang == "en" }
-	File.open('misc_e.csv', 'w:Shift_JIS:UTF-8') { |f| f.puts HE; f.puts misc_e }
-	File.open('misc_j.csv', 'w:Shift_JIS:UTF-8') { |f| f.puts HJ; f.puts misc_j }
+	File.open('misc_e.csv', 'w:UTF-8') { |f| f.puts HE; f.puts misc_e }
+	File.open('misc_j.csv', 'w:UTF-8') { |f| f.puts HJ; f.puts misc_j }
 
 rescue => ex
 	puts ex.message

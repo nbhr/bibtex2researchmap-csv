@@ -80,7 +80,7 @@
   </macro>
   <macro name="author">
     <names variable="author">
-        <name delimiter=";" sort-separator=", "/>
+        <name delimiter="," sort-separator=", "/>
         <label form="short" prefix=", " text-case="capitalize-first"/>
         <substitute>
           <names variable="editor"/>
