@@ -24,6 +24,10 @@ class BibTeX::Entry
 			self.x_title, self.x_authors, self.x_locators, self['volume'], self['number'], self.x_ps, self.x_pe, self.date, self.x_reviewed, self['invited'], self.x_lang)
 	end
 
+    def is_ja(txt)
+        return txt =~ /(?:\p{Hiragana}|\p{Katakana}|[一-龠々])/ ? true : false
+    end
+
 	def update(cp)
 		x = cp.render :bibliography, id: self.key
 		x = x[0].split("\t")
@@ -37,7 +41,8 @@ class BibTeX::Entry
 		when "english", "en" then
 			self.x_lang = "en"
 		else
-			self.x_lang = x[0] =~ /^[ -~]*$/ && self.x_locators =~ /^[ -~]*$/ ? "en" : "ja"
+			#self.x_lang = x[0] =~ /^[ -~]*$/ && self.x_locators =~ /^[ -~]*$/ ? "en" : "ja"
+			self.x_lang = is_ja(x_authors) || is_ja(x_locators) ? "ja" : "en"
 		end
 
 		case self['reviewed']
