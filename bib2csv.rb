@@ -112,11 +112,11 @@ begin
 		b.update(cp)
 	end
 
-	paper_e, paper_j = bib['@article'].partition{ |b| b.x_lang == "en" }
+	paper_e, paper_j = bib['@article,@inproceedings'].partition{ |b| b.x_lang == "en" }
 	File.open('paper_e.csv', 'w:UTF-8') { |f| f.puts HE; f.puts paper_e }
 	File.open('paper_j.csv', 'w:UTF-8') { |f| f.puts HJ; f.puts paper_j }
 
-	misc_e, misc_j = bib['@inproceedings,@techreport'].partition{ |b| b.x_lang == "en" }
+	misc_e, misc_j = bib['@techreport'].partition{ |b| b.x_lang == "en" }
 	File.open('misc_e.csv', 'w:UTF-8') { |f| f.puts HE; f.puts misc_e }
 	File.open('misc_j.csv', 'w:UTF-8') { |f| f.puts HJ; f.puts misc_j }
 
